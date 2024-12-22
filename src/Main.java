@@ -31,7 +31,7 @@ public class Main {
                             writer.println("HTTP/1.1 200 OK");
                             writer.println("Content-Type: text/html; charset=UTF-8");
                             writer.println();
-                            writer.println("<html><body><h1>Welcome to the server!</h1><a href='login.html'>로그인</a> | <a href='signup.html'>회원가입</a></body></html>");
+                            writer.println("<html><body><h1>Welcome to ridepot!</h1><a href='login.html'>로그인</a></body></html>");
                         } else if (path.equals("/login.html")) {
                             sendFile(writer, "login.html", outputStream);
                         } else if (path.equals("/signup.html")) {
