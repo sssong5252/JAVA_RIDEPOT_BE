@@ -246,7 +246,6 @@
       if (balance >= rideCost) {
         balance -= rideCost; // 잔액 차감
         localStorage.setItem('balance', balance); // 로컬 스토리지에 저장
-        alert(`탑승 비용 ${rideCost.toLocaleString()}원이 차감되었습니다. 남은 잔액: ${balance.toLocaleString()}원`);
 
         // main.html로 이동
         window.location.href = 'main.html';
