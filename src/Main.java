@@ -12,7 +12,7 @@ public class Main {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                      PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-                     OutputStream outputStream = socket.getOutputStream()) { // OutputStream을 별도로 받음
+                     OutputStream outputStream = socket.getOutputStream()) {
 
                     String line;
                     StringBuilder request = new StringBuilder();
@@ -98,7 +98,6 @@ public class Main {
                                 writer.flush();
                             }
                         } else if (path.equals("/join")) {
-                            // 참가 요청 처리
                             writer.println("HTTP/1.1 302 Found");
                             writer.println("Location: /main.html"); // main.html로 리다이렉트
                             writer.println();
@@ -124,37 +123,28 @@ public class Main {
     }
 
     private static void sendFile(PrintWriter writer, String fileName, OutputStream outputStream) {
-        // 기본 경로 설정
         String baseDir = "/Users/songjun-yong/Desktop/자바프로그래밍응용"; 
-        
-        // fileName이 이미 절대경로를 포함하고 있는지 확인
         if (fileName.startsWith(baseDir)) {
-            // 절대경로가 포함되어 있으면 그 경로 그대로 사용
             fileName = fileName.substring(baseDir.length());
         }
     
-        // 파일 경로 조합
         String fullPath;
-        
-        // /asset/ 디렉토리 요청시 경로 처리
+
         if (fileName.startsWith("/asset/")) {
-            fullPath = baseDir + fileName;  // asset 경로는 /src 없이 바로 baseDir에 추가
+            fullPath = baseDir + fileName;
         } else {
-            // src 경로는 baseDir/src/와 결합
             if (!fileName.startsWith("/src")) {
-                fullPath = baseDir + "/src/" + fileName; // src/가 없다면 앞에 추가
+                fullPath = baseDir + "/src/" + fileName;
             } else {
-                fullPath = baseDir + fileName; // src/가 이미 포함되어 있다면 그대로 사용
+                fullPath = baseDir + fileName;
             }
         }
     
-        // 디버깅 로그
         System.out.println("Requesting file: " + fullPath);  
         
         try (BufferedInputStream fileInput = new BufferedInputStream(new FileInputStream(fullPath))) {
             writer.println("HTTP/1.1 200 OK");
     
-            // MIME 타입 처리
             String contentType = "text/html; charset=UTF-8";  
             if (fileName.endsWith(".png")) {
                 contentType = "image/png";
@@ -280,7 +270,6 @@ public class Main {
                     }
                 }
             } catch (IOException e) {
-                // 파일이 없으면 비어 있는 리스트 반환
             }
             return users;
         }
