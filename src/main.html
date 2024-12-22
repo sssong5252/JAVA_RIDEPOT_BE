@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <title>택시 팟 UI</title>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      width: 380px;
+      height: 680px;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 6px solid #EEEEEE;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-top: -110px;
+    }
+
+    .participants {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      margin-bottom: 40px;
+      gap: 5px;
+    }
+
+    .participant-a, .participant-b, .participant-c, .participant-d {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .profile {
+      width: 100%;
+    }
+
+    .name {
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .spacer {
+      height: 10px;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 5px;
+    }
+
+    .info-box {
+      height: 150px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      background-color: #f2f2f2;
+      border: 6px solid #f2f2f2;
+      border-radius: 10px;
+    }
+
+    .info-box .label {
+      margin-top: 35px;
+      font-size: 18px;
+      color: #313131;
+    }
+
+    .info-box hr {
+      border-top: 1px solid #2C2C2C;
+      width: 80%;
+    }
+
+    .info-box .value {
+      font-weight: bold;
+      font-size: 20px;
+      color: #313131;
+    }
+
+    .pricing {
+      height: 30%;
+      margin-bottom: 20px;
+      background-color: #f2f2f2;
+      border: 20px solid #f2f2f2;
+      border-radius: 10px;
+    }
+
+    .pricing hr {
+      border-top: 1px solid #2C2C2C;
+    }
+
+    .pricing-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .pricing > .pricing-item:first-child {
+      margin-top: 20px;
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      padding: 10px 0;
+    }
+
+    .button-container {
+      position: fixed;
+      bottom: 90px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      z-index: 90;
+    }
+
+    button {
+      width: 100%;
+      height: 70px;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      background: #6D6D6D;
+      border: none;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.ready {
+      background: #2C2C2C;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      background-color: #FCFCFC;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 10px 0;
+      z-index: 100;
+      border-top: 2px solid #d9d9d9;
+    }
+
+    .nav-item {
+      flex: 1;
+      padding: 10px 0;
+    }
+
+    .nav-item img {
+      display: block;
+      margin: 0 auto;
+      width: 80px;
+      height: 45px;
+    }
+
+    .nav-item:hover {
+      background-color: #eeeeee;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="participants">
+      <div class="participant-a">
+        <div><img class="profile" src="asset/main/main-user-a.png" alt="main-user-a.png"></div>
+        <div class="spacer"></div>
+        <div class="name">장훈진</div>
+      </div>
+      <div class="participant-b">
+        <div><img class="profile" src="asset/main/main-user-b.png" alt="main-user-b.png"></div>
+        <div class="spacer"></div>
+        <div class="name">송준용</div>
+      </div>
+      <div class="participant-c">
+        <div><img class="profile" src="asset/main/main-user-c.png" alt="main-user-c.png"></div>
+        <div class="spacer"></div>
+        <div class="name">곽상헌</div>
+      </div>
+      <div class="participant-d">
+        <div><img class="profile" src="asset/main/main-user-d.png" alt="main-user-d.png"></div>
+        <div class="spacer"></div>
+        <div class="name">박성준</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <div class="info-box">
+        <div class="label">출발</div>
+        <hr>
+        <div class="value">성결대학교</div>
+      </div>
+      <div class="info-box">
+        <div class="label">도착</div>
+        <hr>
+        <div class="value">명학역</div>
+      </div>
+    </div>
+
+    <div class="pricing">
+      <div class="pricing-item">
+        <span>1인 탑승 시 예상 요금</span>
+        <span>4,800원</span>
+      </div>
+      <div class="pricing-item">
+        <span>모집된 인원수</span>
+        <span>4명</span>
+      </div>
+      <div class="pricing-item">
+        <span>수수료</span>
+        <span>200원</span>
+      </div>
+      <hr>
+      <div class="total">
+        <span>총 예상 요금</span>
+        <span>1,400원</span>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <button onclick="ready()">준비</button>
+  </div>
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><img src="asset/icon/icon-list-activate.png" alt="icon-list-activate.png"></a>
+    <a href="popup.html" class="nav-item"><img src="asset/icon/icon-taxi.png" alt="icon-taxi.png"></a>
+    <a href="user.html" class="nav-item"><img src="asset/icon/icon-user.png" alt="icon-user.png"></a>
+  </nav>
+  <script>
+    function ready() {
+      fetch('http://localhost:8080/prepare', {
+          method: 'POST'
+      })
+      .then(response => {
+          if (!response.ok) {
+              return response.text().then(text => { throw new Error('서버 오류: ' + response.status + ' ' + text) });
+          }
+          // response.ok가 true인 경우, 즉 서버가 2xx 응답을 보낸 경우
+          window.location.href = 'popup.html'; // 페이지 이동
+      })
+      .catch(error => {
+          console.error('Fetch Error:', error);
+          alert('요청 중 오류 발생: ' + error.message);
+      });
+  }
+  
+</script>
+
+</body>
+</html>

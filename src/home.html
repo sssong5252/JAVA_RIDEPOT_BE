@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <title>탐색 화면</title>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0 auto;
+      padding: 0;
+      background-color: #f9f9f9;
+      padding-bottom: 70px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .header {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      background-size: 120%;
+      padding: 7vh;
+      background-image: url('asset/index/index-background.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      color: black;
+    }
+
+    .balance > div:nth-child(2) {
+      font-size: 1.7vh;
+      font-weight: bold;
+      color: #898989;
+    }
+
+    .balance > div:nth-child(3) {
+      font-size: 2.8vh;
+      font-weight: bold;
+      color: #898989;
+    }
+
+    .search-bar {
+      padding: 20px;
+      background-color: #f6f6f6;
+      margin: 0 auto;
+      position: relative;
+      top: -30px;
+    }
+
+    .search-bar input {
+      width: 95%;
+      height: 30px;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ffffff;
+      border-radius: 10px;
+    }
+
+    .ride-options-a, .ride-options-b {
+      background-color: #f6f6f6;
+      padding: 20px;
+    }
+
+    .ride-card {
+      background-color: #EEEEEE;
+      border: 1px solid #EEEEEE;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-weight: bold;
+    }
+
+    .spacer {
+      height: 10px;
+    }
+
+    .place-name {
+      font-size: 1.2em;
+    }
+
+    button {
+      width: 100px;
+      height: 80px;
+      padding: 10px 15px;
+      background-color: #2C2C2C;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #444444;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      background-color: #FCFCFC;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 10px 0;
+      z-index: 100;
+      border-top: 2px solid #d9d9d9;
+    }
+
+    .nav-item {
+      flex: 1;
+      padding: 10px 0;
+    }
+
+    .nav-item img {
+      display: block;
+      margin: 0 auto;
+      width: 80px;
+      height: 45px;
+    }
+
+    .nav-item:hover {
+      background-color: #eeeeee;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="user.html">
+      <div class="balance">
+        <div class="spacer"></div>
+        <div>잔액</div>
+        <div>10,000원</div>
+      </div>
+    </a>
+  </header>
+  <div class="search-bar">
+    <div class="spacer"></div>
+    <input type="text" placeholder="목적지를 검색하세요">
+  </div>
+  <section class="ride-options-a">
+    <h3>당신 근처의 팟</h3>
+    <div class="ride-card">
+      <div class="ride-info">
+        <div>
+          <span>출발: </span>
+          <span class="place-name">성결대학교</span>
+        </div>
+        <div>
+          <span>도착: </span>
+          <span class="place-name">안양역</span>
+        </div>
+        <div class="spacer"></div>
+        <div>
+          <span>5,900원 / 3명</span>
+          <span class="price">1,960원</span>
+        </div>
+      </div>
+      <button onclick="joinRide()">참가</button>
+    </div>
+    <div class="ride-card">
+      <div class="ride-info">
+        <div>
+          <span>출발: </span>
+          <span class="place-name">성결대학교</span>
+        </div>
+        <div>
+          <span>도착: </span>
+          <span class="place-name">명학역</span>
+        </div>
+        <div class="spacer"></div>
+        <div>
+          <span>4,800원 / 3명</span>
+          <span class="price">1,600원</span>
+        </div>
+      </div>
+      <button onclick="joinRide()">참가</button>
+    </div>
+    <div class="ride-card">
+      <div class="ride-info">
+        <div>
+          <span>출발: </span>
+          <span class="place-name">성결대학교</span>
+        </div>
+        <div>
+          <span>도착: </span>
+          <span class="place-name">안양역</span>
+        </div>
+        <div class="spacer"></div>
+        <div>
+          <span>5,900원 / 2명</span>
+          <span class="price">2,950원</span>
+        </div>
+      </div>
+      <button onclick="joinRide()">참가</button>
+    </div>
+  </section>
+  <section class="ride-options-b">
+    <h3>목적지 : 동인천역</h3>
+    <div class="ride-card">
+      <div class="ride-info">
+        <div>
+          <span>출발: </span>
+          <span class="place-name">쿠우쿠우 주안역점</span>
+        </div>
+        <div>
+          <span>도착: </span>
+          <span class="place-name">동인천역</span>
+        </div>
+        <div class="spacer"></div>
+        <div>
+          <span>10,960원 / 2명</span>
+          <span class="price">5,480원</span>
+        </div>
+      </div>
+      <button onclick="joinRide()">참가</button>
+    </div>
+    <div class="ride-card">
+      <div class="ride-info">
+        <div>
+          <span>출발: </span>
+          <span class="place-name">인하대병원</span>
+        </div>
+        <div>
+          <span>도착: </span>
+          <span class="place-name">동인천역</span>
+        </div>
+        <div class="spacer"></div>
+        <div>
+          <span>7,720원 / 2명</span>
+          <span class="price">3,860원</span>
+        </div>
+      </div>
+      <button onclick="joinRide()">참가</button>
+    </div>
+  </section>
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><img src="asset/icon/icon-list-activate.png" alt="목록 아이콘"></a>
+    <a href="popup.html" class="nav-item"><img src="asset/icon/icon-taxi.png" alt="택시 아이콘"></a>
+    <a href="user.html" class="nav-item"><img src="asset/icon/icon-user.png" alt="사용자 아이콘"></a>
+  </nav>
+
+  <script>
+    function joinRide() {
+      fetch('/join', {
+          method: 'POST',
+          redirect: 'follow'  // 리디렉션을 따르도록 설정
+      })
+      .then(response => {
+          if (response.ok) {
+              window.location.href = '/main.html';  // 리디렉션을 직접 처리
+          } else {
+              return response.text().then(text => { throw new Error(text) });
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          alert('요청 중 오류 발생: ' + error.message); // 오류 메시지 표시
+      });
+  }
+  
+  </script>
+</body>
+</html>
