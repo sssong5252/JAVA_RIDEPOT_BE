@@ -44,7 +44,11 @@ public class Main {
                             sendFile(writer, "popup.html", outputStream);
                         } else if (path.equals("/user.html")) {
                             sendFile(writer, "user.html", outputStream);
-                        } else if (path.startsWith("/src/asset/")) {
+                        } 
+                        else if (path.equals("/empty.html")) {
+                             sendFile(writer, "empty.html", outputStream);
+                        }
+                        else if (path.startsWith("/src/asset/")) {
                             // 이미지 파일 처리
                             String filePath = "/Users/songjun-yong/Desktop/자바프로그래밍응용" + path;
                             sendFile(writer, filePath, outputStream);
@@ -119,36 +123,55 @@ public class Main {
         }
     }
 
-    private static void sendFile(PrintWriter writer, String filePath, OutputStream outputStream) {
-        // asset 폴더 내의 파일 경로 처리
-        String fullPath = "/Users/songjun-yong/Desktop/자바프로그래밍응용/" + filePath;
+    private static void sendFile(PrintWriter writer, String fileName, OutputStream outputStream) {
+        // 기본 경로 설정
+        String baseDir = "/Users/songjun-yong/Desktop/자바프로그래밍응용"; 
+        
+        // fileName이 이미 절대경로를 포함하고 있는지 확인
+        if (fileName.startsWith(baseDir)) {
+            // 절대경로가 포함되어 있으면 그 경로 그대로 사용
+            fileName = fileName.substring(baseDir.length());
+        }
+    
+        // 파일 경로 조합
+        String fullPath;
+        
+        // /asset/ 디렉토리 요청시 경로 처리
+        if (fileName.startsWith("/asset/")) {
+            fullPath = baseDir + fileName;  // asset 경로는 /src 없이 바로 baseDir에 추가
+        } else {
+            // src 경로는 baseDir/src/와 결합
+            if (!fileName.startsWith("/src")) {
+                fullPath = baseDir + "/src/" + fileName; // src/가 없다면 앞에 추가
+            } else {
+                fullPath = baseDir + fileName; // src/가 이미 포함되어 있다면 그대로 사용
+            }
+        }
+    
+        // 디버깅 로그
+        System.out.println("Requesting file: " + fullPath);  
         
         try (BufferedInputStream fileInput = new BufferedInputStream(new FileInputStream(fullPath))) {
-            
-            // HTTP 응답 헤더 작성
             writer.println("HTTP/1.1 200 OK");
     
-            String contentType = "text/html; charset=UTF-8"; // 기본 MIME 타입 설정
-    
-            // 확장자에 맞는 MIME 타입 설정
-            if (filePath.endsWith(".png")) {
+            // MIME 타입 처리
+            String contentType = "text/html; charset=UTF-8";  
+            if (fileName.endsWith(".png")) {
                 contentType = "image/png";
-            } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+            } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
                 contentType = "image/jpeg";
-            } else if (filePath.endsWith(".gif")) {
+            } else if (fileName.endsWith(".gif")) {
                 contentType = "image/gif";
-            } else if (filePath.endsWith(".css")) {
+            } else if (fileName.endsWith(".css")) {
                 contentType = "text/css";
-            } else if (filePath.endsWith(".js")) {
+            } else if (fileName.endsWith(".js")) {
                 contentType = "application/javascript";
             }
     
-            // 파일의 Content-Type을 응답 헤더로 전송
             writer.println("Content-Type: " + contentType);
-            writer.println("Content-Length: " + new File(fullPath).length()); // 파일 크기
-            writer.println(); // 빈 줄로 헤더 종료
+            writer.println("Content-Length: " + new File(fullPath).length());  
+            writer.println();  
     
-            // 바이너리 파일 전송을 위해 OutputStream 사용
             byte[] buffer = new byte[4096];
             int bytesRead;
             while ((bytesRead = fileInput.read(buffer)) != -1) {
@@ -159,12 +182,12 @@ public class Main {
             writer.println("HTTP/1.1 404 Not Found");
             writer.println("Content-Type: text/html; charset=UTF-8");
             writer.println();
-            writer.println("<h1>파일을 찾을 수 없습니다.</h1>");
+            writer.println("<h1>파일을 찾을 수 없습니다: " + fullPath + "</h1>");
             writer.flush();
         }
     }
     
-
+    
     private static Map<String, String> parseFormData(String formData) throws UnsupportedEncodingException {
         Map<String, String> params = new HashMap<>();
         String[] pairs = formData.split("&");

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        background-image: url(asset/empty/empty-background.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-size: 200%;
+    }
+
+    p {
+      font-size: 18px;
+      display: block;
+      margin-top: 40%;
+    }
+      
+    .nav-item {
+      flex: 1;
+      padding: 10px 0;
+    }
+      
+    .nav-item img {
+      display: block;
+      margin: 0 auto;
+      width: 80px;
+      height: 45px;
+    }
+      
+    .nav-item:hover {
+      background-color: #eeeeee;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      background-color: #FCFCFC;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 10px 0;
+      z-index: 100;
+      border-top: 2px solid #d9d9d9;
+    }
+      
+    .nav-item {
+      flex: 1;
+      padding: 10px 0;
+    }
+      
+    .nav-item img {
+      display: block;
+      margin: 0 auto;
+      width: 80px;
+      height: 45px;
+    }
+      
+    .nav-item:hover {
+      background-color: #eeeeee;
+    }
+  </style>
+  <title>404</title>
+</head>
+<body>
+  <p>현재 진행 중인 파티가 없습니다.</p>
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><img src="src/asset/icon/icon-list.png" alt="icon-list.png"></a>
+    <a href="empty.html" class="nav-item"><img src="src/asset/icon/icon-taxi-activate.png" alt="icon-taxi-activate.png"></a>
+    <a href="user.html" class="nav-item"><img src="src/asset/icon/icon-profile.png" alt="icon-profile.png"></a>
+  </nav>
+</body>
+</html>
