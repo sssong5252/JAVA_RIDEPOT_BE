@@ -16,7 +16,7 @@
         justify-content: center;
         align-items: center;
         background-color: #f4f4f4;
-        background-image: url(asset/popup/popup-map.png);
+        background-image: url(src/asset/popup/popup-map.png);
         background-size: cover;
     }
 
@@ -138,9 +138,9 @@
         <div class="info-title-a">ㅤ4명이</div>
         <div class="info-title-b">ㅤ명학역(으)로</div>
         <div class="info-title-c">ㅤ이동 중이에요.</div>
-        <img class="user" src="asset/popup/popup-user-d.png" alt="popup-user-d.png">
+        <img class="user" src="src/asset/popup/popup-user-d.png" alt="popup-user-d.png">
         <div class="route">
-          <img class="step" src="asset/popup/popup-step-a.png" alt="popup-step-a.png">
+          <img class="step" src="src/asset/popup/popup-step-a.png" alt="popup-step-a.png">
           <ul>
             <li>이동</li>
             <li>목적지 도착</li>
@@ -153,9 +153,9 @@
   </div>
   
   <nav class="bottom-nav">
-    <a href="home.html" class="nav-item"><img src="asset/icon/icon-list.png" alt="icon-list.png"></a>
-    <a href="popup.html" class="nav-item"><img src="asset/icon/icon-taxi-activate.png" alt="icon-taxi-activate.png"></a>
-    <a href="user.html" class="nav-item"><img src="asset/icon/icon-user.png" alt="icon-user.png"></a>
+    <a href="home.html" class="nav-item"><img src="src/asset/icon/icon-list.png" alt="icon-list.png"></a>
+    <a href="popup.html" class="nav-item"><img src="src/asset/icon/icon-taxi-activate.png" alt="icon-taxi-activate.png"></a>
+    <a href="user.html" class="nav-item"><img src="src/asset/icon/icon-user.png" alt="icon-user.png"></a>
   </nav>
 
   <script>
@@ -224,7 +224,7 @@
         document.querySelector('.info-title-c').innerHTML = 'ㅤ도착했어요.';
 
         const stepImage = document.querySelector('.step');
-        stepImage.src = 'asset/popup/popup-step-b.png';
+        stepImage.src = 'src/asset/popup/popup-step-b.png';
         stepImage.alt = 'popup-step-b.png';
       }, 5000);
 
@@ -234,11 +234,11 @@
         document.querySelector('.info-title-c').innerHTML = 'ㅤ있어요.';
 
         const stepImage = document.querySelector('.step');
-        stepImage.src = 'asset/popup/popup-step-c.png';
+        stepImage.src = 'src/asset/popup/popup-step-c.png';
         stepImage.alt = 'popup-step-c.png';
 
         const alertImage = document.createElement('img');
-        alertImage.src = 'asset/popup/popup-alert.png';
+        alertImage.src = 'src/asset/popup/popup-alert.png';
         alertImage.alt = 'popup-alert.png';
         alertImage.classList.add('alert-image');
 
@@ -265,7 +265,7 @@
         document.querySelector('.info-title-c').innerHTML = 'ㅤ해산했어요.';
 
         const stepImage = document.querySelector('.step');
-        stepImage.src = 'asset/popup/popup-step-d.png';
+        stepImage.src = 'src/asset/popup/popup-step-d.png';
         stepImage.alt = 'popup-step-d.png';
       }, 15000);
     });

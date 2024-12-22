@@ -24,7 +24,7 @@
       align-items: center;
       background-size: 120%;
       padding: 7vh;
-      background-image: url('asset/index/index-background.png');
+      background-image: url('src/asset/index/index-background.png');
       background-position: center;
       background-repeat: no-repeat;
       color: black;
@@ -140,7 +140,7 @@
       <div class="balance">
         <div class="spacer"></div>
         <div>잔액</div>
-        <div>10,000원</div>
+        <div id="userBalance">0원</div>
       </div>
     </a>
   </header>
@@ -166,7 +166,7 @@
           <span class="price">1,960원</span>
         </div>
       </div>
-      <button onclick="joinRide()">참가</button>
+      <button>참가</button>
     </div>
     <div class="ride-card">
       <div class="ride-info">
@@ -182,24 +182,6 @@
         <div>
           <span>4,800원 / 3명</span>
           <span class="price">1,600원</span>
-        </div>
-      </div>
-      <button onclick="joinRide()">참가</button>
-    </div>
-    <div class="ride-card">
-      <div class="ride-info">
-        <div>
-          <span>출발: </span>
-          <span class="place-name">성결대학교</span>
-        </div>
-        <div>
-          <span>도착: </span>
-          <span class="place-name">안양역</span>
-        </div>
-        <div class="spacer"></div>
-        <div>
-          <span>5,900원 / 2명</span>
-          <span class="price">2,950원</span>
         </div>
       </div>
       <button onclick="joinRide()">참가</button>
@@ -223,7 +205,7 @@
           <span class="price">5,480원</span>
         </div>
       </div>
-      <button onclick="joinRide()">참가</button>
+      <button>참가</button>
     </div>
     <div class="ride-card">
       <div class="ride-info">
@@ -241,34 +223,37 @@
           <span class="price">3,860원</span>
         </div>
       </div>
-      <button onclick="joinRide()">참가</button>
+      <button>참가</button>
     </div>
   </section>
   <nav class="bottom-nav">
-    <a href="home.html" class="nav-item"><img src="asset/icon/icon-list-activate.png" alt="목록 아이콘"></a>
-    <a href="popup.html" class="nav-item"><img src="asset/icon/icon-taxi.png" alt="택시 아이콘"></a>
-    <a href="user.html" class="nav-item"><img src="asset/icon/icon-user.png" alt="사용자 아이콘"></a>
+    <a href="home.html" class="nav-item"><img src="src/asset/icon/icon-list-activate.png" alt="목록 아이콘"></a>
+    <a href="popup.html" class="nav-item"><img src="src/asset/icon/icon-taxi.png" alt="택시 아이콘"></a>
+    <a href="user.html" class="nav-item"><img src="src/asset/icon/icon-user.png" alt="사용자 아이콘"></a>
   </nav>
 
   <script>
+    // 초기 잔액 불러오기
+    window.onload = function () {
+      const balance = localStorage.getItem('balance') || '10000'; // 기본 잔액 10,000원
+      document.getElementById('userBalance').textContent = `${parseInt(balance).toLocaleString()}원`;
+    };
+
     function joinRide() {
-      fetch('/join', {
-          method: 'POST',
-          redirect: 'follow'  // 리디렉션을 따르도록 설정
-      })
-      .then(response => {
-          if (response.ok) {
-              window.location.href = '/main.html';  // 리디렉션을 직접 처리
-          } else {
-              return response.text().then(text => { throw new Error(text) });
-          }
-      })
-      .catch(error => {
-          console.error('Error:', error);
-          alert('요청 중 오류 발생: ' + error.message); // 오류 메시지 표시
-      });
-  }
-  
+      const rideCost = parseInt(event.target.previousElementSibling.querySelector('.price').textContent.replace(',', '').replace('원', '')) || 0;
+      let balance = parseInt(localStorage.getItem('balance')) || 0;
+
+      if (balance >= rideCost) {
+        balance -= rideCost; // 잔액 차감
+        localStorage.setItem('balance', balance); // 로컬 스토리지에 저장
+        alert(`탑승 비용 ${rideCost.toLocaleString()}원이 차감되었습니다. 남은 잔액: ${balance.toLocaleString()}원`);
+
+        // main.html로 이동
+        window.location.href = 'main.html';
+      } else {
+        alert('잔액이 부족합니다. 충전 후 다시 시도해주세요.');
+      }
+    }
   </script>
 </body>
 </html>

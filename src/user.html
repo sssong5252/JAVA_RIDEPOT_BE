@@ -35,14 +35,14 @@
 
     .container-a img {
       position: absolute;
-      top: 50px;
+      top: -100px;
       left: 50%;
       transform: translateX(-50%);
     }
 
     .name {
       position: absolute;
-      top: 25%;
+      top: 75%;
       left: 50%;
       transform: translateX(-50%);
       font-size: 28px;
@@ -86,14 +86,6 @@
       border-radius: 20px;
       padding-top: 100px;
       padding-bottom: 40px;
-    }
-
-    .charging-card p {
-      font-size: large;
-      color: #898989;
-      font-weight: bold;
-      margin-top: 30px;
-      margin-left: 50px;
     }
 
     button {
@@ -154,20 +146,20 @@
       background-color: #eeeeee;
     }
   </style>
-  <script src="user.js" defer></script>  
   <title>사용자</title>
 </head>
 <body>
   <section class="spacer"></section>
   <section class="container">
     <section class="container-a">
-      <img src="asset/user/user-a.png" alt="사용자 프로필 이미지">
+      <img src="src/asset/user/user-a.png" alt="사용자 프로필 이미지">
       <div class="name">장훈진</div>
+      
     </section>
     <section class="container-b">
       <div class="balance">
         <span>잔액</span>
-        <span>10,000원</span>
+        <span>0원</span>
       </div>
       <div class="charging-card">
         <button>+ 1,000원</button>
@@ -177,13 +169,38 @@
       </div>
     </section>
     <section class="container-c">
-      <a href="login.html" class="logout"><img src="asset/user/user-logout.png" alt="로그아웃 아이콘"></a>
+      <a href="login.html" class="logout"><img src="src/asset/user/user-logout.png" alt="로그아웃 아이콘"></a>
     </section>
   </section>
   <nav class="bottom-nav">
-    <a href="home.html" class="nav-item"><img src="asset/icon/icon-list.png" alt="목록 아이콘"></a>
-    <a href="popup.html" class="nav-item"><img src="asset/icon/icon-taxi.png" alt="택시 아이콘"></a>
-    <a href="user.html" class="nav-item"><img src="asset/icon/icon-user-activate.png" alt="사용자 아이콘"></a>
+    <a href="home.html" class="nav-item"><img src="src/asset/icon/icon-list.png" alt="목록 아이콘"></a>
+    <a href="popup.html" class="nav-item"><img src="src/asset/icon/icon-taxi.png" alt="택시 아이콘"></a>
+    <a href="user.html" class="nav-item"><img src="src/asset/icon/icon-user-activate.png" alt="사용자 아이콘"></a>
   </nav>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const balanceElement = document.querySelector('.balance > span:nth-child(2)');
+      const buttons = document.querySelectorAll('.charging-card button');
+
+      // 로컬 스토리지에서 잔액 가져오기
+      let balance = parseInt(localStorage.getItem('balance')) || 0;
+
+      // 잔액 초기화
+      balanceElement.textContent = `${balance.toLocaleString()}원`;
+
+      // 버튼 클릭 이벤트 설정
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const amount = parseInt(button.textContent.replace(/[^0-9]/g, ''), 10);
+          balance += amount;
+          balanceElement.textContent = `${balance.toLocaleString()}원`;
+
+          // 로컬 스토리지에 잔액 저장
+          localStorage.setItem('balance', balance);
+        });
+      });
+    });
+  </script>
 </body>
 </html>

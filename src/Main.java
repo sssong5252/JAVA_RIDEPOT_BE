@@ -11,7 +11,8 @@ public class Main {
             while (true) {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                     PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
+                     PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+                     OutputStream outputStream = socket.getOutputStream()) { // OutputStream을 별도로 받음
 
                     String line;
                     StringBuilder request = new StringBuilder();
@@ -32,17 +33,21 @@ public class Main {
                             writer.println();
                             writer.println("<html><body><h1>Welcome to the server!</h1><a href='login.html'>로그인</a> | <a href='signup.html'>회원가입</a></body></html>");
                         } else if (path.equals("/login.html")) {
-                            sendFile(writer, "login.html");
+                            sendFile(writer, "login.html", outputStream);
                         } else if (path.equals("/signup.html")) {
-                            sendFile(writer, "signup.html");
+                            sendFile(writer, "signup.html", outputStream);
                         } else if (path.equals("/home.html")) {
-                            sendFile(writer, "home.html");
+                            sendFile(writer, "home.html", outputStream);
                         } else if (path.equals("/main.html")) {
-                            sendFile(writer, "main.html");
+                            sendFile(writer, "main.html", outputStream);
                         } else if (path.equals("/popup.html")) {
-                            sendFile(writer, "popup.html");
-                        } else if (path.equals("/user.html")) {  // user.html 요청 처리 추가
-                            sendFile(writer, "user.html");
+                            sendFile(writer, "popup.html", outputStream);
+                        } else if (path.equals("/user.html")) {
+                            sendFile(writer, "user.html", outputStream);
+                        } else if (path.startsWith("/src/asset/")) {
+                            // 이미지 파일 처리
+                            String filePath = "/Users/songjun-yong/Desktop/자바프로그래밍응용" + path;
+                            sendFile(writer, filePath, outputStream);
                         }
                     } else if (method.equals("POST")) {
                         StringBuilder bodyBuilder = new StringBuilder();
@@ -94,18 +99,15 @@ public class Main {
                             writer.println("Location: /main.html"); // main.html로 리다이렉트
                             writer.println();
                             writer.flush();
-                        } 
-                        else if (path.equals("/prepare")) {
-                            writer.println("HTTP/1.1 200 OK"); // 응답 상태 코드
+                        } else if (path.equals("/prepare")) {
+                            writer.println("HTTP/1.1 200 OK");
                             writer.println("Location: /popup.html");
-                            writer.println("Content-Type: application/json; charset=UTF-8"); // 응답 헤더
-
-                            writer.println("Access-Control-Allow-Origin: *"); // CORS 설정
-                            writer.println(); // 빈 줄로 헤더 종료
-                            writer.println("{\"status\":\"success\"}"); // JSON 응답
+                            writer.println("Content-Type: application/json; charset=UTF-8");
+                            writer.println("Access-Control-Allow-Origin: *");
+                            writer.println();
+                            writer.println("{\"status\":\"success\"}");
                             writer.flush();
                         }
-                        
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -117,16 +119,42 @@ public class Main {
         }
     }
 
-    private static void sendFile(PrintWriter writer, String fileName) {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(fileName))) {
+    private static void sendFile(PrintWriter writer, String filePath, OutputStream outputStream) {
+        // asset 폴더 내의 파일 경로 처리
+        String fullPath = "/Users/songjun-yong/Desktop/자바프로그래밍응용/" + filePath;
+        
+        try (BufferedInputStream fileInput = new BufferedInputStream(new FileInputStream(fullPath))) {
+            
+            // HTTP 응답 헤더 작성
             writer.println("HTTP/1.1 200 OK");
-            writer.println("Content-Type: text/html; charset=UTF-8");
-            writer.println();
-            String line;
-            while ((line = fileReader.readLine()) != null) {
-                writer.println(line);
+    
+            String contentType = "text/html; charset=UTF-8"; // 기본 MIME 타입 설정
+    
+            // 확장자에 맞는 MIME 타입 설정
+            if (filePath.endsWith(".png")) {
+                contentType = "image/png";
+            } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+                contentType = "image/jpeg";
+            } else if (filePath.endsWith(".gif")) {
+                contentType = "image/gif";
+            } else if (filePath.endsWith(".css")) {
+                contentType = "text/css";
+            } else if (filePath.endsWith(".js")) {
+                contentType = "application/javascript";
             }
-            writer.flush();
+    
+            // 파일의 Content-Type을 응답 헤더로 전송
+            writer.println("Content-Type: " + contentType);
+            writer.println("Content-Length: " + new File(fullPath).length()); // 파일 크기
+            writer.println(); // 빈 줄로 헤더 종료
+    
+            // 바이너리 파일 전송을 위해 OutputStream 사용
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInput.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
         } catch (IOException e) {
             writer.println("HTTP/1.1 404 Not Found");
             writer.println("Content-Type: text/html; charset=UTF-8");

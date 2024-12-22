@@ -149,6 +149,15 @@
       background: #2C2C2C;
     }
 
+    .button-container .message {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: green;
+      margin-top: 10px;
+      display: none;
+    }
+
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -184,22 +193,22 @@
   <div class="container">
     <div class="participants">
       <div class="participant-a">
-        <div><img class="profile" src="asset/main/main-user-a.png" alt="main-user-a.png"></div>
+        <div><img class="profile" src="src/asset/main/main-user-a.png" alt="main-user-a.png"></div>
         <div class="spacer"></div>
         <div class="name">장훈진</div>
       </div>
       <div class="participant-b">
-        <div><img class="profile" src="asset/main/main-user-b.png" alt="main-user-b.png"></div>
+        <div><img class="profile" src="src/asset/main/main-user-b.png" alt="main-user-b.png"></div>
         <div class="spacer"></div>
         <div class="name">송준용</div>
       </div>
       <div class="participant-c">
-        <div><img class="profile" src="asset/main/main-user-c.png" alt="main-user-c.png"></div>
+        <div><img class="profile" src="src/asset/main/main-user-c.png" alt="main-user-c.png"></div>
         <div class="spacer"></div>
         <div class="name">곽상헌</div>
       </div>
       <div class="participant-d">
-        <div><img class="profile" src="asset/main/main-user-d.png" alt="main-user-d.png"></div>
+        <div><img class="profile" src="src/asset/main/main-user-d.png" alt="main-user-d.png"></div>
         <div class="spacer"></div>
         <div class="name">박성준</div>
       </div>
@@ -234,37 +243,56 @@
       <hr>
       <div class="total">
         <span>총 예상 요금</span>
-        <span>1,400원</span>
+        <span>1,600원</span>
       </div>
     </div>
+
+    <div class="button-container">
+      <button id="readyBtn">준비</button>
+      <div class="message" id="readyMessage">준비 완료</div>
+    </div>
   </div>
-  <div class="button-container">
-    <button onclick="ready()">준비</button>
-  </div>
+
   <nav class="bottom-nav">
-    <a href="home.html" class="nav-item"><img src="asset/icon/icon-list-activate.png" alt="icon-list-activate.png"></a>
-    <a href="popup.html" class="nav-item"><img src="asset/icon/icon-taxi.png" alt="icon-taxi.png"></a>
-    <a href="user.html" class="nav-item"><img src="asset/icon/icon-user.png" alt="icon-user.png"></a>
+    <a href="home.html" class="nav-item"><img src="src/asset/icon/icon-list-activate.png" alt="icon-list-activate.png"></a>
+    <a href="popup.html" class="nav-item"><img src="src/asset/icon/icon-taxi.png" alt="icon-taxi.png"></a>
+    <a href="user.html" class="nav-item"><img src="src/asset/icon/icon-user.png" alt="icon-user.png"></a>
   </nav>
+
   <script>
     function ready() {
-      fetch('http://localhost:8080/prepare', {
-          method: 'POST'
-      })
-      .then(response => {
-          if (!response.ok) {
-              return response.text().then(text => { throw new Error('서버 오류: ' + response.status + ' ' + text) });
-          }
-          // response.ok가 true인 경우, 즉 서버가 2xx 응답을 보낸 경우
-          window.location.href = 'popup.html'; // 페이지 이동
-      })
-      .catch(error => {
-          console.error('Fetch Error:', error);
-          alert('요청 중 오류 발생: ' + error.message);
-      });
-  }
-  
-</script>
+      const readyBtn = document.getElementById('readyBtn');
+      const readyMessage = document.getElementById('readyMessage');
+
+      // 버튼 색상 변경
+      readyBtn.classList.add('ready');
+      readyBtn.textContent = "준비 완료";
+
+      // 메시지 표시
+      readyMessage.style.display = 'block';
+
+      // 3초 후 페이지 이동
+      setTimeout(function () {
+        fetch('http://localhost:8080/prepare', {
+            method: 'POST'
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error('서버 오류: ' + response.status + ' ' + text) });
+            }
+            // 응답이 정상적이면 페이지 이동
+            window.location.href = 'popup.html';
+        })
+        .catch(error => {
+            console.error('Fetch Error:', error);
+            alert('요청 중 오류 발생: ' + error.message);
+        });
+      }, 3000); // 3초 후에 요청
+    }
+
+    // 준비 버튼 클릭 시 함수 호출
+    document.getElementById('readyBtn').addEventListener('click', ready);
+  </script>
 
 </body>
 </html>
